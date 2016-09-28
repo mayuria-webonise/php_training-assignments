@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^products/([0-9]+)/?$ index.php?request=1&Id=$1 [QSA,NC,L]
+RewriteRule ^cart/([0-9]+)/?$ index.php?request=2&Id=$1 [QSA,NC,L]
+RewriteRule ^category/([0-9]+)/?$ index.php?request=3&Id=$1 [QSA,NC,L]
+RewriteRule ^products index.php?products [QSA,NC,L]
+RewriteRule ^cart index.php?cart [QSA,NC,L]
+RewriteRule ^category index.php?category [QSA,NC,L]
+</IfModule>
+

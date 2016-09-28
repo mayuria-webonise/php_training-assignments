@@ -1,0 +1,29 @@
+//post data in products
+curl --request POST -d 'name=book&deok&price=50&discount=10&category_name=kids' 'local.shopping_cart.com/products'
+//in cart
+curl --request POST -d 'cart_name=firstCart&product_name=book' 'local.shopping_cart.com/cart'
+//in category
+curl --request POST -d 'category_name=sport&category_description=sports_stuff&tax=10' 'local.shopping_cart.com/category'
+
+
+
+//get categories
+curl --request GET 'local.shopping_cart.com/category'
+//get products
+curl --request GET 'local.shopping_cart.com/products'
+//get cart
+curl --request GET 'local.shopping_cart.com/cart'
+
+//delete data products
+curl --request DELETE 'local.shopping_cart.com/products/3'
+curl --request DELETE 'local.shopping_cart.com/category/2'
+curl --request DELETE 'local.shopping_cart.com/cart/2'
+
+
+
+
+//update
+curl --request PUT -d "column=cart_name&new_value=shopping" 'local.shopping_cart.com/cart/1'
+//upadte products
+curl --request PUT -d "column=product_name&new_vale=phone" 'local.shopping_cart.com/products/10'
+curl --request PUT -d "column=category_name&new_value=home" 'local.shopping_cart.com/category/5'
