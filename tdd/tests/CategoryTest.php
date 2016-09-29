@@ -72,4 +72,26 @@ class CategoryTest extends PHPUnit_Framework_TestCase {
     {
         $this->assertInternalType('array',self::$category->listCategories());
     }
+    /**
+     * @dataProvider getCategoryProvider
+     */
+    function testGetCategory($expected,$id)
+    {
+        if($expected==false)
+        {
+            $this->assertFalse(self::$category->getCategory($id));
+        }
+        else {
+            $this->assertInternalType($expected, self::$category->getCategory($id));
+        }
+    }
+    public function getCategoryProvider()
+    {
+        return array(
+            array('array',12),
+            array(false,-2),
+            array(false,'a')
+
+        );
+    }
 }

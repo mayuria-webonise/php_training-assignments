@@ -10,7 +10,7 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../src</directory>
+            <directory suffix=".php">/home/webonise/Desktop/tdd/src/</directory>
         </whitelist>
     </filter>
 </phpunit>

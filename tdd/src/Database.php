@@ -20,22 +20,22 @@ class Database
     }
     function listAllProducts()
     {
-        $selectStatement = $this->databaseDriver->prepare("select * from products;");
+        $selectStatement = $this->databaseDriver->prepare("select * from shopping_cart.products;");
         $selectStatement->execute();
         $results = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
         return $results;
     }
-    function selectFromProducts($productId)
+    function selectFromProducts($productName)
     {
-        $selectStatement = $this->databaseDriver->prepare("select * from products  where id = :product_id;");
-        $selectStatement->bindParam(":product_id", $productId);
+        $selectStatement = $this->databaseDriver->prepare("select * from shopping_cart.products  where product_name = :productName;");
+        $selectStatement->bindParam(":productName", $productName);
         $selectStatement->execute();
         $results = $selectStatement->fetch(PDO::FETCH_ASSOC);
         return $results;
     }
     function addProduct($product_name,$description,$price,$discount,$category_id)
     {
-        $statementFile = $this->databaseDriver->prepare("INSERT INTO products (product_name,description,price,discount,category_id)VALUES (:product_name,:description,:price,:discount,:category_id);");
+        $statementFile = $this->databaseDriver->prepare("INSERT INTO shopping_cart.products (product_name,description,price,discount,category_id)VALUES (:product_name,:description,:price,:discount,:category_id);");
         $statementFile->bindParam(":product_name", $product_name);
         $statementFile->bindParam(":description", $description);
         $statementFile->bindParam(":price", $price);
@@ -68,7 +68,7 @@ class Database
         {
             return false;
         }
-        $statementProduct = $this->databaseDriver->prepare("delete from products where id=:product_id;");
+        $statementProduct = $this->databaseDriver->prepare("delete from shopping_cart.products where id=:product_id;");
         $statementProduct->bindParam(":product_id", $productId);
         if ($statementProduct->execute())
         {
@@ -81,7 +81,7 @@ class Database
     }
     function addCategory($categoryName,$description,$tax)
     {
-        $statementCategory = $this->databaseDriver->prepare("INSERT INTO category (category_name,category_description,tax) VALUES (:category_name,:category_description,:tax);");
+        $statementCategory = $this->databaseDriver->prepare("INSERT INTO shopping_cart.category (category_name,category_description,tax) VALUES (:category_name,:category_description,:tax);");
         $statementCategory->bindParam(":category_name", $categoryName);
         $statementCategory->bindParam(":category_description", $description);
         $statementCategory->bindParam(":tax", $tax);
@@ -104,7 +104,7 @@ class Database
         {
             return false;
         }
-        $statementCategory = $this->databaseDriver->prepare("delete from category where idcategory= :category_id;");
+        $statementCategory = $this->databaseDriver->prepare("delete from shopping_cart.category where idcategory= :category_id;");
         $statementCategory->bindParam(":category_id", $category_id);
         if ($statementCategory->execute()) {
             return true;
@@ -125,7 +125,15 @@ class Database
     }
     function getCategory($categoryId)
     {
-        $statementCategory = $this->databaseDriver->prepare("select tax from category where idcategory = :category_id;");
+        if($categoryId<0)
+        {
+            return false;
+        }
+        if(!is_int($categoryId))
+        {
+            return false;
+        }
+        $statementCategory = $this->databaseDriver->prepare("select tax from shopping_cart.category where idcategory = :category_id;");
         $statementCategory->bindParam(":category_id",$categoryId);
         $statementCategory->execute();
         $results = $statementCategory->fetch(PDO::FETCH_ASSOC);
@@ -133,14 +141,14 @@ class Database
     }
     function listCategories()
     {
-        $statementCategory = $this->databaseDriver->prepare("select * from category;");
+        $statementCategory = $this->databaseDriver->prepare("select * from shopping_cart.category;");
         $statementCategory->execute();
         $results = $statementCategory->fetchAll(PDO::FETCH_ASSOC);
         return $results;
     }
     function addToCart($cartName,$orderId,$productId)
     {
-        $statementCart = $this->databaseDriver->prepare("INSERT INTO cart (cart_name,order_id,product_id) VALUES (:cart_name,:order_id,:product_id);");
+        $statementCart = $this->databaseDriver->prepare("INSERT INTO shopping_cart.cart (cart_name,order_id,product_id) VALUES (:cart_name,:order_id,:product_id);");
         $statementCart->bindParam(":cart_name", $cartName);
         $statementCart->bindParam(":order_id", $orderId);
         $statementCart->bindParam(":product_id", $productId);
@@ -160,7 +168,7 @@ class Database
         {
             return false;
         }
-        $statementCart = $this->databaseDriver->prepare("delete from cart where product_id=:product_id;");
+        $statementCart = $this->databaseDriver->prepare("delete from shopping_cart.cart where product_id=:product_id;");
         $statementCart->bindParam(":product_id", $productId);
         if ($statementCart->execute())
         {
@@ -173,7 +181,7 @@ class Database
     }
     function selectFromCart()
     {
-        $statementCart = $this->databaseDriver->prepare("select * from cart;");
+        $statementCart = $this->databaseDriver->prepare("select * from shopping_cart.cart;");
         $statementCart->execute();
         $results = $statementCart->fetchAll(PDO::FETCH_ASSOC);
         return $results;

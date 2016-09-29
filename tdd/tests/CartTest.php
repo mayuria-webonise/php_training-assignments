@@ -1,4 +1,6 @@
 <?php
+require("/home/webonise/Desktop/tdd/vendor/autoload.php");
+
 class CartTest extends PHPUnit_Framework_TestCase {
     protected static $cart;
 
@@ -13,6 +15,21 @@ class CartTest extends PHPUnit_Framework_TestCase {
     function testCartInitialization()
     {
         $this->assertInstanceOf('Cart',self::$cart);
+    }
+
+    /**
+     * @dataProvider cartProvider
+     */
+    function testAddCart($expected,$cart_name,$product_name)
+    {
+        $this->assertEquals($expected,self::$cart->addProductToCart($cart_name,$product_name));
+    }
+    public function cartProvider()
+    {
+        return array(
+            array(true,'firstcart','basket'),
+            array(true,'firstcart','blanket')
+        );
     }
     /**
      * @dataProvider deleteCartProvider
@@ -50,6 +67,11 @@ class CartTest extends PHPUnit_Framework_TestCase {
             array(1,'Cart','test',false)
         );
     }
+
+    function testReturnOfShowCart()
+    {
+        $this->assertInternalType('array', self::$cart->showCart());
+    }
     function testSelectFromCartIsEmpty()
     {
         $database = Database::connect();
@@ -70,4 +92,5 @@ class CartTest extends PHPUnit_Framework_TestCase {
             $this->assertInternalType('array', self::$cart->showCart());
         }
     }
+
 }

@@ -70,8 +70,4 @@ class Cart
         $arrayCart = array("cart_name" => $this->cartName, "Products" => $this->products, "Total" => $this->totalAmount, "Total Discount" => $this->totalDiscount, "Total with Discount" =>$this->amountWithDiscount,"total_tax"=>$this->totalTax,"total with tax"=>$this->amountWithTax,"grand total"=>$this->totalAmount+$this->totalTax-$this->totalDiscount);
         return $arrayCart;
     }
-    public function selectCartWithName($cartName)
-    {
-
-    }
 }
